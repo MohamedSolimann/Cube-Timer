@@ -1,0 +1,28 @@
+.scramble {
+    /* text-align: center; */
+    font-size: 25px;
+    font-weight: 30px;
+    background-color: black;
+    color: white;
+    padding: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.scrambleContainer {
+    /* border: 1px solid white; */
+    background-color: black;
+    text-align: center;
+}
+
+.seconds {
+    padding-left: 37%;
+    font-size: 150px;
+    font-family: "lcd";
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+    padding: 10px;
+}
