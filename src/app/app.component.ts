@@ -22,11 +22,13 @@ export class AppComponent {
   public counter = 0;
   public timer1;
   public timer2;
+  public timer3;
   public solvesInfo: Array<object> = [];
   public solves: number = 1;
   public scramble;
   public previoudScrambles = [];
   public scrambleTracker = 0;
+  public toggleClass = "solveTimer";
   public moves: Array<string> = [
     "F",
     "B",
@@ -67,8 +69,10 @@ export class AppComponent {
     debugger;
     this.scramble = shuffle.join("  ");
   }
+
   stopWatch() {
     if (this.counter === 0) {
+      this.toggleClass = "inspectionTimer";
       this.seconds = 15;
       this.counter++;
       this.timer1 = setInterval(() => {
@@ -80,6 +84,7 @@ export class AppComponent {
         }
       }, 1000);
     } else if (this.counter === 1) {
+      this.toggleClass = "solveTimer";
       this.counter++;
       clearInterval(this.timer1);
       this.seconds = 0;
@@ -93,8 +98,10 @@ export class AppComponent {
         solveNumber: this.solves++,
       });
       clearInterval(this.timer2);
+      clearInterval(this.timer3);
       this.counter = 0;
       this.seconds = 0;
+      this.milliSeconds = 0;
       this.generateScramble();
       this.scrambleTracker++;
     }
@@ -103,7 +110,12 @@ export class AppComponent {
     this.scramble = this.previoudScrambles[this.scrambleTracker - 1];
     this.scrambleTracker--;
   }
-
+  millisecondsTimer() {
+    this.timer3 = setInterval(() => {
+      this.milliSeconds = 0;
+      this.milliSeconds++;
+    }, 1);
+  }
   nextScramble() {
     if (this.previoudScrambles[this.scrambleTracker + 1] === undefined) {
       this.generateScramble();

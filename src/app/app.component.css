@@ -20,6 +20,20 @@
     font-family: "lcd";
 }
 
+.inspectionTimer {
+    padding-left: 37%;
+    color: red;
+    font-size: 150px;
+    font-family: "lcd";
+}
+
+.solveTimer {
+    padding-left: 37%;
+    color: black;
+    font-size: 150px;
+    font-family: "lcd";
+}
+
 table,
 th,
 td {
