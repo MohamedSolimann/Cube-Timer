@@ -1,5 +1,4 @@
 import { Component } from "@angular/core";
-import { debug } from "util";
 
 @Component({
   selector: "app-root",
@@ -17,6 +16,7 @@ export class AppComponent {
   }
 
   title = "cubtTimer";
+  public minutes;
   public seconds: any = 0;
   public milliSeconds: any = 0;
   public counter = 0;
@@ -24,10 +24,11 @@ export class AppComponent {
   public timer2;
   public timer3;
   public solvesInfo: Array<object> = [];
-  public solves: number = 1;
+  public solves: number = 0;
   public scramble;
   public previoudScrambles = [];
   public scrambleTracker = 0;
+  public average;
   public toggleClass = "solveTimer";
   public moves: Array<string> = [
     "F",
@@ -56,7 +57,9 @@ export class AppComponent {
     while (counter < 20) {
       let move = this.moves[Math.floor(Math.random() * 18)];
       if (counter >= 1) {
-        if (shuffle[counter - 1][1] !== move[1]) {
+        let currentMove = move[0];
+        let previousMove = shuffle[counter - 1][0];
+        if (currentMove !== previousMove) {
           shuffle.push(move);
           counter++;
         }
@@ -66,12 +69,12 @@ export class AppComponent {
       }
     }
     this.previoudScrambles.push(shuffle);
-    debugger;
     this.scramble = shuffle.join("  ");
   }
 
   stopWatch() {
     if (this.counter === 0) {
+      this.milliSeconds = 0;
       this.toggleClass = "inspectionTimer";
       this.seconds = 15;
       this.counter++;
@@ -89,19 +92,28 @@ export class AppComponent {
       clearInterval(this.timer1);
       this.seconds = 0;
       this.timer2 = setInterval(() => {
-        this.seconds++;
-      }, 1000);
+        this.milliSeconds++;
+        if (this.milliSeconds === 10) {
+          this.milliSeconds = 0;
+          this.seconds++;
+        }
+      }, 100);
     } else {
-      debugger;
       this.solvesInfo.unshift({
         seconds: this.seconds,
+        milliSeconds: this.milliSeconds,
         solveNumber: this.solves++,
       });
+      if (this.solves >= 5) {
+        let average = this.getAverage(5, this.solvesInfo);
+        this.solvesInfo[0].ao5 = average;
+        // lastSolve.ao5=
+      }
       clearInterval(this.timer2);
       clearInterval(this.timer3);
       this.counter = 0;
-      this.seconds = 0;
-      this.milliSeconds = 0;
+      // this.seconds = 0;
+      // this.milliSeconds = 0;
       this.generateScramble();
       this.scrambleTracker++;
     }
@@ -124,5 +136,16 @@ export class AppComponent {
       this.scrambleTracker++;
       this.scramble = this.previoudScrambles[this.scrambleTracker];
     }
+  }
+  getAverage(n, arr) {
+    let seconds = 0;
+    let milliSeconds = 0;
+    let average;
+    for (let i = 0; i < 5; i++) {
+      seconds += arr[i].seconds;
+      milliSeconds += arr[i].milliSeconds;
+    }
+    average = `${Math.floor(seconds / 5)}.${Math.floor(milliSeconds / 5)}`;
+    return average;
   }
 }

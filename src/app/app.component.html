@@ -3,8 +3,8 @@
     <p class="scramble">{{scramble}}</p>
 </div>
 <div style="text-align :center;">
-    <button mat-stroked-button (click)="previousScramble()">Previous</button>
-    <button mat-stroked-button (click)="nextScramble()">Next</button>
+    <button mat-raised-button color="primary" (click)="previousScramble()">Previous</button>
+    <button mat-raised-button color='primary' style="margin-left:10px" (click)="nextScramble()">Next</button>
 </div>
 
 <div class="row">
@@ -16,15 +16,15 @@
                 <th> ao5 </th>
             </tr>
             <tr *ngFor="let solve of solvesInfo">
-                <td>{{solve.solveNumber}}</td>
-                <td>{{solve.seconds}}</td>
-                <td></td>
+                <td>{{solve.solveNumber +1}}</td>
+                <td>{{solve.seconds}}.{{solve.milliSeconds}}</td>
+                <td>{{solve.ao5}}</td>
             </tr>
         </table>
 
     </div>
     <div class="col-md-10">
-        <p [class]="toggleClass">{{seconds}}</p>
+        <p [class]="toggleClass">{{seconds}}.{{milliSeconds}}</p>
     </div>
 </div>
 
