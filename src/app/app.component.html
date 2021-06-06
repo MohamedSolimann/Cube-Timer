@@ -1,14 +1,14 @@
 <!-- <div class="container"> -->
-<div class='scrambleContainer'>
+<div *ngIf="showScramble" class='scrambleContainer'>
     <p class="scramble">{{scramble}}</p>
 </div>
-<div style="text-align :center;">
+<div *ngIf="showButtons" style="text-align :center;">
     <button mat-raised-button color="primary" (click)="previousScramble()">Previous</button>
     <button mat-raised-button color='primary' style="margin-left:10px" (click)="nextScramble()">Next</button>
 </div>
 
 <div class="row">
-    <div class="col-md-2">
+    <div *ngIf='showScores' class="col-md-2">
         <table>
             <tr>
                 <th> ⌕ </th>
@@ -17,14 +17,14 @@
             </tr>
             <tr *ngFor="let solve of solvesInfo">
                 <td>{{solve.solveNumber +1}}</td>
-                <td>{{solve.seconds}}.{{solve.milliSeconds}}</td>
+                <td><span *ngIf="solve.minutes">{{solve.minutes}}.</span>{{solve.seconds}}.{{solve.milliSeconds}}</td>
                 <td>{{solve.ao5}}</td>
             </tr>
         </table>
 
     </div>
-    <div class="col-md-10">
-        <p [class]="toggleClass">{{seconds}}.{{milliSeconds}}</p>
+    <div class="col-md-10 solveTImer">
+        <p [class]="toggleClass"><span *ngIf="showMinutes">{{minutes}}.</span>{{seconds}}<span *ngIf="showMilliSeconds">.{{milliSeconds}}</span></p>
     </div>
 </div>
 

@@ -16,20 +16,25 @@ export class AppComponent {
   }
 
   title = "cubtTimer";
-  public minutes;
+  public minutes = 0;
   public seconds: any = 0;
   public milliSeconds: any = 0;
   public counter = 0;
   public timer1;
   public timer2;
   public timer3;
-  public solvesInfo: Array<object> = [];
+  public solvesInfo: any = [];
   public solves: number = 0;
   public scramble;
   public previoudScrambles = [];
   public scrambleTracker = 0;
   public average;
   public toggleClass = "solveTimer";
+  public showScramble: boolean = true;
+  public showScores: boolean = true;
+  public showButtons: boolean = true;
+  public showMinutes: boolean = false;
+  public showMilliSeconds: boolean = true;
   public moves: Array<string> = [
     "F",
     "B",
@@ -74,8 +79,11 @@ export class AppComponent {
 
   stopWatch() {
     if (this.counter === 0) {
+      this.showMilliSeconds = false;
+      this.showMinutes = false;
       this.milliSeconds = 0;
       this.toggleClass = "inspectionTimer";
+
       this.seconds = 15;
       this.counter++;
       this.timer1 = setInterval(() => {
@@ -83,10 +91,15 @@ export class AppComponent {
         if (this.seconds === 0) {
           clearInterval(this.timer1);
           this.seconds = "DNF!";
+          this.showScores = true;
+          this.showScramble = true;
+          this.showButtons = true;
           this.counter--;
         }
       }, 1000);
     } else if (this.counter === 1) {
+      this.minutes = 0;
+      this.showMilliSeconds = true;
       this.toggleClass = "solveTimer";
       this.counter++;
       clearInterval(this.timer1);
@@ -96,10 +109,16 @@ export class AppComponent {
         if (this.milliSeconds === 10) {
           this.milliSeconds = 0;
           this.seconds++;
+          if (this.seconds === 60) {
+            this.showMinutes = true;
+            this.minutes++;
+            this.seconds = 0;
+          }
         }
       }, 100);
     } else {
       this.solvesInfo.unshift({
+        minutes: this.minutes,
         seconds: this.seconds,
         milliSeconds: this.milliSeconds,
         solveNumber: this.solves++,
@@ -111,6 +130,7 @@ export class AppComponent {
       }
       clearInterval(this.timer2);
       clearInterval(this.timer3);
+
       this.counter = 0;
       // this.seconds = 0;
       // this.milliSeconds = 0;
@@ -138,10 +158,13 @@ export class AppComponent {
     }
   }
   getAverage(n, arr) {
+    debugger;
     let seconds = 0;
     let milliSeconds = 0;
+    let minutes = 0;
     let average;
     for (let i = 0; i < 5; i++) {
+      minutes += arr[i].minutes;
       seconds += arr[i].seconds;
       milliSeconds += arr[i].milliSeconds;
     }
