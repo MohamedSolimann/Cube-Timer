@@ -1,4 +1,4 @@
-# CubtTimer
+# CubeTimer
 
 This project will give you a scramble for rubik's cube and calculate time and give you average of 5 ,The project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.23.
 
